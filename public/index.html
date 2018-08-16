@@ -34,24 +34,24 @@
 					<strong>Oh snap!</strong><br />
 
 					<span ng-if="code == 'SERVER_TIMEOUT'">A connection timeout occured. Your browser could not retrieve data. Please check if your server is up and running.</span>
-					
+
 					<span ng-if="code == 'TWILIO_ACCOUNT_SID_INVALID'">The environment variable TWILIO_ACCOUNT_SID is not set or incorrect. If you are on Heroku please update your application settings.</span>
-					
+
 					<span ng-if="code == 'TWILIO_AUTH_TOKEN_INVALID'">The environment variable TWILIO_AUTH_TOKEN is not set or incorrect. If you are on Heroku please update your application settings.</span>
-					
+
 					<span ng-if="code == 'TWILIO_WORKSPACE_SID_INVALID'">The environment variable TWILIO_WORKSPACE_SID is not set or incorrect. If you are on Heroku please update your application settings.</span>
-					
+
 					<span ng-if="code == 'TWILIO_ACCOUNT_NOT_ACCESSIBLE'">The application could not access the Twilio API with the provided credentials. Please verify Account Sid and Auth Token.</span>
-					
+
 					<span ng-if="code == 'TWILIO_WORKSPACE_NOT_ACCESSIBLE'">The application could not access the your Twilio Taskrouter workspace please verify the Workspace Sid.</span>
-					
-					<span ng-if="code == 'TWILIO_APPLICATION_SID_INVALID'">The TwiML Applications SID is not set, please complete <strong>http://&lt;your_application&gt;/setup</strong> first</span>
+
+					<span ng-if="code == 'TWILIO_APPLICATION_SID_INVALID'">The TwiML Applications SID is not set, please complete <strong><a href="/setup">Setup</a></strong> first</span>
 
 					<span ng-if="code == 'TWILIO_APPLICATION_NOT_ACCESSIBLE'">The application could not access the TwiML Application.</span>
-				
-					<span ng-if="code == 'TWILIO_PHONE_NUMBER_UNKNOWN'">The configured Twilio number was not found. Please run <strong>http://&lt;your_application&gt;/setup</strong></span>
 
-					<span ng-if="code == 'TWILIO_PHONE_NUMBER_VOICE_URL_INVALID'">The Twilio number Voice URL does not point to this server. Please run <strong>http://&lt;your_application&gt;/setup</strong></span>
+					<span ng-if="code == 'TWILIO_PHONE_NUMBER_UNKNOWN'">The configured Twilio number was not found. Please run <strong><a href="/setup">Setup</a></strong></span>
+
+					<span ng-if="code == 'TWILIO_PHONE_NUMBER_VOICE_URL_INVALID'">The Twilio number Voice URL does not point to this server. Please run <strong><a href="/setup">Setup</a></strong></span>
 
 					<span ng-if="code == 'TWILIO_UNKNOWN_ERROR'">Please check the server console.</span>
 
