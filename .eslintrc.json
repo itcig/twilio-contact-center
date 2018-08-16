@@ -5,7 +5,11 @@
    },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "experimentalObjectRestSpread": true
+        },
+        "ecmaVersion": 2017
     },
     "rules": {
     "strict": ["error", "global"],

@@ -4,6 +4,13 @@ var express       = require('express')
 var bodyParser    = require('body-parser')
 var sessions      = require('express-session')
 var compression   = require('compression')
+require('dotenv').load()
+const ngrok = require('ngrok')
+const port = (process.env.PORT || 5000)
+const ngrokUrl = async function () {
+	const url = await ngrok.connect(port)
+	console.log('ngrok url ->', url)
+}
 
 /* check if the application runs on heroku */
 var util
@@ -16,7 +23,7 @@ if (process.env.DYNO) {
 
 var app = express()
 
-app.set('port', (process.env.PORT || 5000))
+app.set('port', port)
 
 app.use(compression())
 app.use(sessions({
@@ -162,4 +169,5 @@ app.use('/', express.static(__dirname + '/public'))
 
 app.listen(app.get('port'), function () {
 	console.log('magic happens on port', app.get('port'))
+	ngrokUrl()
 })
