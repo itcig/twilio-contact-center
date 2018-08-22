@@ -18,6 +18,14 @@ app.controller('WorkflowController', function ($scope, $rootScope, $http, $inter
 	/* UI */
 	$scope.UI = { warning: { browser: null, worker: null, phone: null}};
 
+	/* CIG API */
+	$scope.cigapi = {
+		showData: false,
+		message: null,
+		data: null,
+		subscriber: null
+	};
+
 	if ($window.location.protocol !== 'https:') {
 		let message =  `Depending on your browser and/or settings capturing audio and video 
 										requires a secure (HTTPS) page. The demo may not work.`;
@@ -107,6 +115,28 @@ app.controller('WorkflowController', function ($scope, $rootScope, $http, $inter
 			$scope.task.completed = false;
 			$scope.reservation = null;
 			$scope.stopReservationCounter();
+
+			let phoneNumber = reservation.task.attributes.phone; // 7033177159; -- Brad's Number
+			$scope.cigapi.showData = null;
+
+			$http.get(`/api/cigapi/${phoneNumber}`)
+				.then(function onSuccess (response) {
+					console.log(response);
+					let data = response.data;
+					console.log(data);
+
+					$scope.cigapi.message = data.message;
+					$scope.cigapi.data = data.data;
+					$scope.cigapi.subscriber = data.data[0];
+					$scope.cigapi.showData = true; // for collapsable list
+
+					console.log($scope.cigapi.message);
+					console.log($scope.cigapi.data);
+					console.log($scope.cigapi.subscriber);
+
+				}).catch(function (error) {
+					console.log('CIG API Error ->', error);
+				});
 
 			$scope.$apply();
 

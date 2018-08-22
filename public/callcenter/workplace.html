@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/styles/default.css" type="text/css" />
     <link rel="stylesheet" href="/styles/bootstrap.css" type="text/css" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -47,6 +49,8 @@
 
               </select>
             </div>
+          </div>
+
           </div>
 
           <div class="reservations">
@@ -90,14 +94,73 @@
               </div>
 
               <div class="panel-body">
-                <div class="description">{{task.attributes.title}} from
-                  <span ng-show="!task.attributes.nameIsPhoneNumber">{{task.attributes.name}}</span>
+                <div class="description">
+
+                  {{task.attributes.title}} from<span ng-show="!task.attributes.nameIsPhoneNumber"> {{task.attributes.name}}</span>
 
                   <a href="#" ng-click="callPhoneNumber(task.attributes.name)" ng-show="task.attributes.nameIsPhoneNumber">{{task.attributes.name}}</a>
                 </div>
-                {{task.attributes.text}}
+
+                <div>
+                  <h5>Notes From Client</h5>
+                  <p style="padding-left: 1rem">{{task.attributes.text}}</p>
+                </div>
+
+                <!-- CIG API Subscriber Data -->
+                <div class="cig-api-subscriber-data" ng-if="cigapi.subscriber">
+                  <h5>CIG API Response</h5>
+
+                  <button type="button" ng-if="cigapi.showData" ng-click="cigapi.showData = !cigapi.showData" class="btn-xs btn-info pull-right" data-toggle="collapse" data-target="#subscriber-data">Show Subscriber Data</button>
+
+                  <ul id="subscriber-data" class="collapse">
+                    <li>
+                      <span>Name:</span>
+                      {{cigapi.subscriber.fullname}}
+                    </li>
+                    <li ng-if="cigapi.subscriber.companyname">
+                      <span>Company:</span>
+                      {{cigapi.subscriber.companyname}}
+                    </li>
+                    <li class="address">
+                      <span>Address:</span>
+                      <div>
+                        <p ng-if="cigapi.subscriber.addressline1">{{cigapi.subscriber.addressline1}}</p>
+                        <p ng-if="cigapi.subscriber.addressline2">{{cigapi.subscriber.addressline2}}</p>
+                        <p ng-if="cigapi.subscriber.addressline3">{{cigapi.subscriber.addressline3}}</p>
+                        <!-- City, State, Zipcode -->
+                        <p>{{cigapi.subscriber.town}}, {{cigapi.subscriber.region}} {{cigapi.subscriber.addressline4}}</p>
+                      </div>
+                    </li>
+                    <li ng-if="cigapi.subscriber.telephone_number">
+                      <span>Email:</span>
+                      {{cigapi.subscriber.telephone_number}}
+                    </li>
+                    <li ng-if="cigapi.subscriber.email">
+                      <span>Email:</span>
+                      {{cigapi.subscriber.email}}
+                    </li>
+                    <li ng-if="cigapi.subscriber.fax_number">
+                      <span>Email:</span>
+                      {{cigapi.subscriber.fax_number}}
+                    </li>
+                    <li ng-if="cigapi.subscriber.truepersonid">
+                      <span>PersonID:</span>
+                      {{cigapi.subscriber.truepersonid}}
+                    </li>
+                    <li ng-if="cigapi.subscriber.pguid">
+                      <span>pguid:</span>
+                      {{cigapi.subscriber.pguid}}
+                    </li>
+                  </ul>
+
+                  <button type="button" ng-if="!cigapi.showData" ng-click="cigapi.showData = !cigapi.showData" class="btn-xs btn-info pull-right" data-toggle="collapse" data-target="#subscriber-data">Hide Subscriber Data</button>
+
+                </div>
+                <!-- CIG API Subscriber Data -->
+
               </div>
 
+              <!-- video -->
               <section class="agent-video-canvas" ng-controller="VideoController" ng-cloak>
                 <div>
 
@@ -215,25 +278,46 @@
                 <button ng-show="!UI.transfer" ng-click="toggleTransferPanel()" aria-label="tansfer" style="background-image:url(/images/icon-transfer-off.svg)"></button>
                 <button ng-show="UI.transfer" ng-click="toggleTransferPanel()" aria-label="cancel-transfer" style="background-image:url(/images/icon-transfer.svg)"></button>
 
+                <!--<button ng-show="!UI.warmxfer" ng-click="toggleWarmTransferPanel()" aria-label="warmxfer" style="background-image:url(/images/icon-warm-transfer-off.svg)"></button>-->
+                <!--<button ng-show="UI.warmxfer" ng-click="toggleWarmTransferPanel()" aria-label="cancel-warmxfer" style="background-image:url(/images/icon-warm-transfer.svg)"></button>-->
+
               </div>
 
-              <div class="transfer-control" ng-if="UI.transfer" class="transfer">
+              <div class="transfer-control transfer" ng-if="UI.transfer">
 
-          <div class="load-indicator" ng-show="transfer.isLoading">
-            <i class="fa fa-refresh fa-spin"></i>
-          </div>
+                <div class="load-indicator" ng-show="transfer.isLoading">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div>
 
-          <div class="worker-list-empty" ng-if="transfer.workers.length == 0 && !transfer.isLoading">
-            No agent available
-          </div>
+                <div class="worker-list-empty" ng-if="transfer.workers.length == 0 && !transfer.isLoading">
+                  No agent available
+                </div>
 
-          <select class="worker-list" ng-if="transfer.workers.length > 0 && !transfer.isLoading" ng-model="transfer.to">
-            <option ng-repeat="worker in transfer.workers track by worker.sid" value="{{worker.sid}}">{{worker.friendlyName}}</option>
-          </select>
+                <select class="worker-list" ng-if="transfer.workers.length > 0 && !transfer.isLoading" ng-model="transfer.to">
+                  <option ng-repeat="worker in transfer.workers track by worker.sid" value="{{worker.sid}}">{{worker.friendlyName}}</option>
+                </select>
 
-          <button ng-class="{'button-transfer-disabled': !transfer.to}" ng-disabled="!transfer.to" class="button-transfer" ng-click="transfer()">TRANSFER CALL</button>
+                <button ng-class="{'button-transfer-disabled': !transfer.to}" ng-disabled="!transfer.to" class="button-transfer" ng-click="transfer()">TRANSFER CALL</button>
 
-        </div>
+              </div>
+
+              <!--<div class="warmxfer-control warmxfer" ng-if="UI.warmxfer">-->
+
+                <!--<div class="load-indicator" ng-show="warmxfer.isLoading">-->
+                  <!--<i class="fa fa-refresh fa-spin"></i>-->
+                <!--</div>-->
+
+                <!--<div class="worker-list-empty" ng-if="warmxfer.workers.length == 0 && !warmxfer.isLoading">-->
+                  <!--No agent available-->
+                <!--</div>-->
+
+                <!--<select class="worker-list" ng-if="warmxfer.workers.length > 0 && !warmxfer.isLoading" ng-model="warmxfer.to">-->
+                  <!--<option ng-repeat="worker in warmxfer.workers track by worker.sid" value="{{worker.sid}}">{{worker.friendlyName}}</option>-->
+                <!--</select>-->
+
+                <!--<button ng-class="{'button-warmxfer-disabled': !warmxfer.to}" ng-disabled="!warmxfer.to" class="button-warmxfer" ng-click="warmxfer()">TRANSFER CALL</button>-->
+
+              <!--</div>-->
 
               <button class="button-call" ng-if="UI.state == 'idle'" ng-click="call(phoneNumber)">CALL</button>
               <button class="button-hangup" ng-if="UI.state == 'busy'" ng-click="hangUp()">HANGUP</button>

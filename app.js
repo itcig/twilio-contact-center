@@ -1,11 +1,12 @@
 'use-strict'
 
-var express       = require('express')
-var bodyParser    = require('body-parser')
-var sessions      = require('express-session')
-var compression   = require('compression')
-require('dotenv').load()
+const express       = require('express')
+const bodyParser    = require('body-parser')
+const sessions      = require('express-session')
+const compression   = require('compression')
 const ngrok = require('ngrok')
+require('dotenv').load()
+
 const port = (process.env.PORT || 5000)
 const ngrokUrl = async function () {
 	const url = await ngrok.connect(port)
@@ -13,7 +14,7 @@ const ngrokUrl = async function () {
 }
 
 /* check if the application runs on heroku */
-var util
+let util
 
 if (process.env.DYNO) {
 	util = require('./util-pg.js')
@@ -21,7 +22,7 @@ if (process.env.DYNO) {
 	util = require('./util-file.js')
 }
 
-var app = express()
+const app = express()
 
 app.set('port', port)
 
@@ -41,9 +42,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(function (req, res, next) {
 
-	var replaceErrors = function (key, value) {
+	const replaceErrors = function (key, value) {
 		if (value instanceof Error) {
-			var error = {}
+			const error = {}
 
 			Object.getOwnPropertyNames(value).forEach(function (key) {
 				error[key] = value[key]
@@ -51,7 +52,6 @@ app.use(function (req, res, next) {
 
 			return error
 		}
-
 		return value
 	}
 
@@ -97,72 +97,76 @@ app.use('/', function (req, res, next) {
 	next()
 })
 
-var router = express.Router()
+const router = express.Router()
 
-var setup = require('./controllers/setup.js')
+const setup = require('./controllers/setup.js')
 
 router.route('/setup').get(setup.get)
 router.route('/setup').post(setup.update)
 
-var setupPhoneNumber = require('./controllers/setup-phone-number.js')
+const setupPhoneNumber = require('./controllers/setup-phone-number.js')
 
 router.route('/setup/phone-number/validate').post(setupPhoneNumber.validate)
 router.route('/setup/phone-number').post(setupPhoneNumber.update)
 
-var validate = require('./controllers/validate.js')
+const validate = require('./controllers/validate.js')
 
 router.route('/validate/setup').post(validate.validateSetup)
 
-var tasks = require('./controllers/tasks.js')
+const tasks = require('./controllers/tasks.js')
 
 router.route('/tasks/callback').post(tasks.createCallback)
 router.route('/tasks/chat').post(tasks.createChat)
 router.route('/tasks/video').post(tasks.createVideo)
 
 /* routes for agent interface and phone */
-var agents = require('./controllers/agents.js')
+const agents = require('./controllers/agents.js')
 
 router.route('/agents/login').post(agents.login)
 router.route('/agents/logout').post(agents.logout)
 router.route('/agents/session').get(agents.getSession)
 
-var phone = require('./controllers/phone.js')
+const phone = require('./controllers/phone.js')
 
 router.route('/phone/call').post(phone.call)
 router.route('/phone/call/:sid/add-participant/:phone').post(phone.addParticipant)
 router.route('/phone/call/:sid/conference').get(phone.getConference)
 router.route('/phone/hold').post(phone.hold)
 
-var phoneTransfer = require('./controllers/phone-transfer.js')
+const phoneTransfer = require('./controllers/phone-transfer.js')
 
 router.route('/phone/transfer/available-workers').get(phoneTransfer.getAvailableWorkers)
 router.route('/phone/transfer/:sid').post(phoneTransfer.create)
 router.route('/phone/transfer/:sid/forward/:to/initiated-by/:from').post(phoneTransfer.forward)
 
 /* routes for IVR */
-var ivr = require('./controllers/ivr.js')
+const ivr = require('./controllers/ivr.js')
 
 router.route('/ivr/welcome').get(ivr.welcome)
 router.route('/ivr/select-team').get(ivr.selectTeam)
 router.route('/ivr/create-task').get(ivr.createTask)
 
 /* routes called by the Twilio TaskRouter */
-var taskrouter = require('./controllers/taskrouter.js')
+const taskrouter = require('./controllers/taskrouter.js')
 
 router.route('/taskrouter/workspace').get(taskrouter.getWorkspace)
 router.route('/taskrouter/activities').get(taskrouter.getActivities)
 
-var workers = require('./controllers/workers.js')
+const workers = require('./controllers/workers.js')
 
 router.route('/workers').get(workers.list)
 router.route('/workers').post(workers.create)
 router.route('/workers/:id').delete(workers.delete)
 
 /* routes for messaging adapter */
-var messagingAdapter = require('./controllers/messaging-adapter.js')
+const messagingAdapter = require('./controllers/messaging-adapter.js')
 
 router.route('/messaging-adapter/inbound').post(messagingAdapter.inbound)
 router.route('/messaging-adapter/outbound').post(messagingAdapter.outbound)
+
+/* CIG API */
+const cigApi = require('./controllers/cig.js')
+router.route('/cigapi/:phone').get(cigApi.getSubscriber);
 
 app.use('/api', router)
 app.use('/', express.static(__dirname + '/public'))

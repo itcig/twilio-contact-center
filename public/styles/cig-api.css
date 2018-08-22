@@ -1,0 +1,29 @@
+/* Generic Styles for all Subscriber Data */
+.cig-api-subscriber-data ul {
+    list-style: none;
+    padding-left: 1rem;
+}
+
+.cig-api-subscriber-data ul li span {
+    font-weight: 800;
+    min-width: 6.75rem;
+}
+
+.cig-api-subscriber-data ul li {
+    display: flex;
+    border-bottom: 1px solid #F0F0F0;
+    margin-bottom: .5rem;
+}
+
+/* Specific Styles for Address Data */
+.cig-api-subscriber-data ul li.address span {
+    display: block;
+}
+
+.cig-api-subscriber-data ul li.address div {
+    display: inline-block;
+}
+
+.cig-api-subscriber-data ul li.address div p {
+    margin-bottom: 0;
+}

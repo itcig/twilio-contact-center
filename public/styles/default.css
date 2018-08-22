@@ -1,3 +1,5 @@
+@import url('./cig-api.css');
+
 /* prevent angularjs flicker */
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
@@ -288,6 +290,49 @@ a.header-home-link {
     width: 100%;
     margin-bottom: 20px;
 }
+
+/* warmXfer */
+/*.phone-controller .button-warmxfer {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid rgb(33, 150, 243);
+    font-size: 1.2em;
+    background-color: rgb(33, 150, 243);
+    color: white;
+}
+
+.phone-controller .button-warmxfer-disabled {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #d6d4d4;
+    font-size: 1.2em;
+    background-color: #d6d4d4;
+    color: white;
+}
+
+.phone-controller .warmxfer-control {
+    border: 1px solid #ddd;
+    padding: 20px 15px 20px 15px;
+    margin-bottom: 10px;
+}
+
+.phone-controller .warmxfer-control .load-indicator {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.phone-controller .warmxfer-control .worker-list-empty {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.phone-controller .warmxfer-control .worker-list {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}*/
 
 .phone-controller .status {
     font-size: 0.8em;
