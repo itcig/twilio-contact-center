@@ -8,7 +8,7 @@ const client = new Twilio(
 module.exports.create = function (req, res) {
 	console.log(`transfer call to ${req.body.to} customer's call leg ${req.params.sid}`)
 
-	const url = `${req.protocol}://${req.hostname}/api/phone/transfer/${req.params.sid}/forward/${req.body.to}/initiated-by/${req.session.worker.sid}`
+	const url = `https://${req.hostname}/api/phone/transfer/${req.params.sid}/forward/${req.body.to}/initiated-by/${req.session.worker.sid}`
 
 	client
 		.calls(req.params.sid)
@@ -20,6 +20,9 @@ module.exports.create = function (req, res) {
 		})
 }
 
+/**
+ * Create a new task and assign it the worker to which the call should be transferred
+ */
 module.exports.forward = function (req, res) {
 
 	client.taskrouter.workspaces(process.env.TWILIO_WORKSPACE_SID)

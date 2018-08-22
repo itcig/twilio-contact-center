@@ -29,6 +29,7 @@ app.controller('PhoneController', function ($scope, $rootScope, $http, $timeout,
 			$scope.reset();
 		});
 
+		//@TODO make this check for an updated worker activity
 		Twilio.Device.connect(function (connection) {
 			$scope.connection = connection;
 			$scope.debug = 'successfully established call';
@@ -73,7 +74,7 @@ app.controller('PhoneController', function ($scope, $rootScope, $http, $timeout,
 			$log.error('active device lost: ')
 			$log.error(lostActiveDevices)
 		})
-*/
+		*/
 	});
 
 	$scope.hangUp = function (reservation) {

@@ -35,6 +35,9 @@ module.exports.getConference = function (req, res) {
 		})
 }
 
+/**
+ * Make a new conference, once it's successfully created run callback
+ */
 module.exports.call = function (req, res) {
 	let name = 'conf_' + req.body.CallSid
 
@@ -45,7 +48,8 @@ module.exports.call = function (req, res) {
 		{
 			endConferenceOnExit: true,
 			statusCallbackEvent: 'join',
-			statusCallback: `/api/phone/call/${req.body.CallSid}/add-participant/${encodeURIComponent(req.body.phone)}`
+			// Added https://${req.hostname} to string, may not be necessary
+			statusCallback: `https://${req.hostname}/api/phone/call/${req.body.CallSid}/add-participant/${encodeURIComponent(req.body.phone)}`
 		},
 		name
 	)
