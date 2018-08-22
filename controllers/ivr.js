@@ -3,6 +3,9 @@ const Twilio 	= require('twilio')
 const taskrouterHelper = require('./helpers/taskrouter-helper.js')
 
 module.exports.welcome = function (req, res) {
+
+	return // exit and use fallback which is Twilio Studio
+
 	const twiml =  new Twilio.twiml.VoiceResponse()
 
 	let keywords = []
