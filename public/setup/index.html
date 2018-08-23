@@ -21,6 +21,11 @@
 
     <h4>Workspace: {{workspace.sid}} - {{workspace.friendlyName}}</h4>
 
+    <div style="margin: 2rem auto;">
+      <h6>** Only need to update the url? Click here! **</h6>
+      <button class="btn btn-primary" ng-disabled="UI.isSaving" ng-click="saveConfig()"><span style="margin-right: 10px;" ng-show="UI.isSaving == true"><i class="fa fa-refresh fa-spin"></i></span>Update Settings</button>
+    </div>
+
     <form name="setupForm">
 
       <h6>Worker Offline Activity:</h6>
