@@ -10,7 +10,7 @@
     }
   ],
   "license": "MIT",
-  "repository": "nash-md/twilio-contact-center",
+  "repository": "itcig/twilio-contact-center",
   "main": "app.js",
   "bugs": "https://github.com/nash-md/twilio-contact-center/issues",
   "private": false,
@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "eslint": "^3.5.x",
+    "nodemon": "^1.18.3",
     "ngrok": "^3.0.1"
   },
   "engines": {
@@ -51,6 +52,7 @@
   ],
   "scripts": {
     "start": "node app.js",
-    "lint": "./node_modules/.bin/eslint . || exit 0"
+    "lint": "./node_modules/.bin/eslint . || exit 0",
+    "test": "nodemon app.js"
   }
 }
