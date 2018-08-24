@@ -16,7 +16,7 @@
     "indent": [2, "tab"],
     "curly": [2, "all"],
     "quotes": [2, "single"],
-    "max-len": [1, 100],
+    "max-len": [1, 200],
     "prefer-const": 0,
     "no-console": ["error", { "allow": ["warn", "error", "log"] }],
     "no-mixed-spaces-and-tabs": 2,
